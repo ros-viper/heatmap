@@ -1,3 +1,5 @@
+#All the following instructions are made for Windows 10 OS
+
 #Django environment
 1. Open a PyCharm and go to File>NewProject
 2. Enter the intended location (e.g. H:\Project\heatmap)
@@ -14,10 +16,28 @@ In the Terminal after your project's location enter "~name of the venv folder~\S
 It should look like "H:\Project\heatmap>venv\Scripts\activate"
 
 #Installing project
+
+##Django part:
 1. Get the project from the working repo (read the git documentation on the web) into your main project folder
 2. Run "pip install -r requirements.txt" in the PyCharm terminal. That will install all the required packages into your
 virtual environment
 3. Run "python manage.py migrate" to initially set up the database
 4. If you install any additional packages, run the following command in the PyCharm terminal:
-"pip freeze > requirements.txt". This will add the packages to the requiremens file, so that anyone else
+"pip freeze > requirements.txt". This will add the packages to the requirements file, so that anyone else
 who downloads the project can install the required packages too.
+
+##React part:
+1. Download and install node.js from the web
+2. CD into the "front-end" directory in the terminal
+3. Run "npm install"
+4. Run "npm build"
+5. CD upwards into the project folder and run "python manage.py runserver". This should run the Django project and you
+should be able navigate to http://localhost:8000 and see the React app running and being served by Django
+
+#NPM error:
+If you get an error that npm command is not recognized make sure node.js is added to your environment veriables:
+1. Make a global OS search for "environment", open the Edit the system environment variables and press
+Environment variables in the Advanced tab of the System Properties
+2. Press New under the User variable for ~your-user-name~
+3. Name your variable somehow (e.g. Path) and add a path to your nodejs installation (e.g. C:\Program Files\nodejs\)
+4. Restart all the terminals and the problem should be fixed
