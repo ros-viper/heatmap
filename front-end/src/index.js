@@ -12,14 +12,12 @@ import { applyMiddleware, createStore } from 'redux';
 
 
 const initialState = {
-    sensors: [
-        {'devEUI': 1111111111111111, 'data': 'TDoxOTYuNSBIOjIzLjkgVDoyMy40TToyLjY2NDcx'}
-    ]
+    sensors: []
 }
 
 const history = createBrowserHistory()
 
-const store = createStore(
+export const store = createStore(
     connectRouter(history)(rootReducer), // new root reducer with router state
     initialState,
     composeWithDevTools(
@@ -28,8 +26,6 @@ const store = createStore(
         )
     )
 );
-
-
 
 ReactDOM.render(
     <Provider store={store}>
