@@ -3,33 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import { createBrowserHistory } from 'history'
-import { routerMiddleware, connectRouter } from 'connected-react-router'
 import { Provider } from 'react-redux';
-import rootReducer from './reducers/rootReducer'
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { applyMiddleware, createStore } from 'redux';
-
-
-const initialState = {
-    sensors: []
-}
-
-const history = createBrowserHistory()
-
-export const store = createStore(
-    connectRouter(history)(rootReducer), // new root reducer with router state
-    initialState,
-    composeWithDevTools(
-        applyMiddleware(
-            routerMiddleware(history), // for dispatching history actions
-        )
-    )
-);
+import store from './store/store';
 
 ReactDOM.render(
     <Provider store={store}>
-         <App history={history} />
+         <App />
     </Provider>, 
     document.getElementById('root'));
 registerServiceWorker();

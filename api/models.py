@@ -7,6 +7,17 @@ class Sensor(models.Model):
     temperature = models.FloatField(null=True)
     humidity = models.FloatField(null=True)
     luminosity = models.FloatField(null=True)
+    x = models.IntegerField(null=False)
+    y = models.IntegerField(null=False)
+
+    @property
+    def color(self):
+        if self.temperature > 23.00:
+            return 'red'
+        elif self.temperature < 23.00 and self.temperature > 20:
+            return 'orange'
+        else:
+            return 'lightblue'
 
     def __str__(self):
         """A string representation of the model."""

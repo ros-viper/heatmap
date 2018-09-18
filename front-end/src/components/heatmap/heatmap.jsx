@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import * as utils from '../../utils/utils';
+import Map from '../map/map';
+import store from '../../store/store';
 
 const mapStateToProps = state => {
     return {
-        sensors: state.sensors
+        sensors: state.rootReducer.sensors
     };
 };
 
@@ -17,16 +19,21 @@ class ConnectedHeatmap extends Component {
         utils.getSensors(utils.sensorsLink);
     }
 
+    componentDidMount() {
+        
+    }
+
     render() {
         return (
-            <div>
-                {this.props.sensors.map(sensor => (
-                    <div>
-                        <p>{sensor.serialID}</p>
-                        <p>{sensor.temperature}</p>
-                    </div>
-                ))}
-            </div>
+            <Map />
+            // <div>
+            //     {this.props.sensors.map(sensor => (
+            //         <div>
+            //             <p>{sensor.serialID}</p>
+            //             <p>{sensor.temperature}</p>
+            //         </div>
+            //     ))}
+            // </div>
         );
     };
 };

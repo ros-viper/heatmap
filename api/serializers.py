@@ -6,4 +6,4 @@ class SensorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sensor
-        exclude = ('id',)
+        fields = ('serialID', 'temperature', 'x', 'y', 'color')

@@ -1,4 +1,4 @@
-import { store } from '../index.js'
+import store from '../store/store';
 import { setSensors } from '../actions/actions';
 
 export const sensorsLink = 'http://localhost:8000/api/sensors/';
