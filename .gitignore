@@ -12,9 +12,6 @@ front-end/node_modules
 # testing
 front-end/coverage
 
-# production
-front-end/build
-
 # misc
 .DS_Store
 .env.local

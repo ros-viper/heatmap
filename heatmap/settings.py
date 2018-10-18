@@ -58,7 +58,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     'localhost:3000',
-    '127.0.0.2:8080'
+    '127.0.0.2:8080',
+    '10.25.137.162:80'
 )
 
 ROOT_URLCONF = 'heatmap.urls'
