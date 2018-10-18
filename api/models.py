@@ -22,4 +22,4 @@ class Sensor(models.Model):
 
     def __str__(self):
         """A string representation of the model."""
-        return f'{self.serialID}'
+        return str(self.serialID)
