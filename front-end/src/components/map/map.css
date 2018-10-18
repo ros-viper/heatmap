@@ -2,7 +2,7 @@
     border: 1px solid darkgrey;
 }*/
 
-#map {
+#map.d2 {
     background-image: url("../../images/Floor_2.svg");
     background-repeat: no-repeat;
     width: 1140px;
@@ -16,4 +16,8 @@ circle:hover {
 
 circle {
     opacity: 0.5;
+}
+
+span.reading {
+    display: block;
 }

@@ -19,7 +19,7 @@ def sensor_list(request):
 
 @api_view(['GET', 'POST'])
 def paho(request):
-    broker = "m2m.eclipse.org"
+    broker = "iot.op-bit.nz"
 
     if request.method =='GET':
         sensors = Sensor.objects.all()
@@ -35,7 +35,7 @@ def paho(request):
         client.on_connect = on_connect
         print("connecting to broker ", broker)
         client.connect(broker, 1883, 60)  # connect
-        # client.subscribe("$SYS/#", 0)
+        client.subscribe("#", 0)
         client.loop_forever()
         # client.loop_start()  # start loop to process received messages
         #
