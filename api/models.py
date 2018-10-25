@@ -9,7 +9,7 @@ class Sensor(models.Model):
     luminosity = models.FloatField(null=True)
     x = models.IntegerField(null=False)
     y = models.IntegerField(null=False)
-    floor = models.CharField(null=False, default="d2", max_length=30)
+    floor = models.CharField(null=False, default="one", max_length=30)
 
     @property
     def color(self):

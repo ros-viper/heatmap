@@ -2,7 +2,7 @@ import { SET_SENSORS, SET_LOADING, SET_FLOOR } from '../actions/action-types';
 
 const initialState = {
     sensors: [],
-    floor: "d2"
+    floor: "one"
 }
 
 
