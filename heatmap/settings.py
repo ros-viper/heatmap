@@ -60,7 +60,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     'localhost:3000',
     '127.0.0.2:8080',
-    'http://10.25.137.162'
+    'http://10.25.100.164'
 )
 
 ROOT_URLCONF = 'heatmap.urls'
