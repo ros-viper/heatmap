@@ -3,5 +3,4 @@ from api import views
 
 urlpatterns = [
     path('sensors/', views.sensor_list),
-    path('paho/', views.paho),
 ]
