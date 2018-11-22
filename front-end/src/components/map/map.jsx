@@ -77,20 +77,14 @@ class ConnectedMap extends Component {
     render() {
         const sensors = this.props.sensors.filter(sensor => sensor.floor === this.props.floor);
         return (
-            <div>
-                <Tooltip trigger="click" title="Welcome to React" followCursor={true}>
-                    <div id="map" className={this.props.floor.toString()} onClick={this.getCoord}></div>
-                    
-                    {sensors.map((sensor, index) => (
-                        <ReactTooltip key={index} id={sensor.serialID.toString()} type='info' effect='solid'>
-                            <span className='reading'>ID: {sensor.serialID}</span>
-                            <span className='reading'>Temperature: {sensor.temperature}</span>
-                            <span className='reading'>Humidity: {sensor.humidity}</span>
-                            <span className='reading'>Luminosity: {sensor.luminosity}</span>
-                        </ReactTooltip>
-                    ))}
-    
-                </Tooltip>
+            <div id="map" className={this.props.floor.toString()} onClick={this.getCoord}>
+                {sensors.map((sensor, index) => (
+                    <ReactTooltip key={index} id={sensor.serialID.toString()} type='info' effect='solid'>
+                        <span className='reading'>ID: {sensor.serialID}</span>
+                        <span className='reading'>Temperature: {sensor.temperature}</span>
+                        <span className='reading'>Humidity: {sensor.humidity}</span>
+                    </ReactTooltip>
+                ))}
             </div>
         );
     }

@@ -6,7 +6,6 @@ class Sensor(models.Model):
     serialID = models.IntegerField(null=False)
     temperature = models.FloatField(null=True)
     humidity = models.FloatField(null=True)
-    luminosity = models.FloatField(null=True)
     x = models.IntegerField(null=False)
     y = models.IntegerField(null=False)
     floor = models.CharField(null=False, default="one", max_length=30)
