@@ -10,9 +10,12 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, message):
     from .models import Sensor
+    print(message.payload)
 
     try:
         json_data = json.loads(str(message.payload.decode("utf-8")))
+        data = base64.b64decode(json_data['data']).decode("utf-8")
+        print(data)
         devID = int(json_data['devEUI'])
         sensor = Sensor.objects.get(serialID=devID)
         temperature = base64.b64decode(json_data['data']).decode("utf-8")[3:8]
@@ -21,9 +24,6 @@ def on_message(client, userdata, message):
         sensor.temperature = float(temperature)
         sensor.humidity = float(humidity)
         sensor.save()
-
-        print(float(temperature))
-        print(float(humidity))
 
     except UnicodeDecodeError:
         pass

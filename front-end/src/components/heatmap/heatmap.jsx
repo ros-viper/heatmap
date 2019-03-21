@@ -2,21 +2,25 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import * as utils from '../../utils/utils';
 import Map from '../map/map';
+import Toolbar from '../toolbar/toolbar';
 import ReactLoading from 'react-loading';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
-import { setFloor } from '../../actions/actions';
+import { Dropdown, Button, ButtonToolbar } from 'react-bootstrap';
+import { setFloor, setAdmin } from '../../actions/actions';
 import './heatmap.css';
+
 
 const mapStateToProps = state => {
     return {
         sensors: state.rootReducer.sensors,
         loading: state.rootReducer.loading,
-        floor: state.rootReducer.floor
+        floor: state.rootReducer.floor,
+        adminMode: state.rootReducer.adminMode
     };
 };
 
 const mapDispatchToProps = {
-    setFloor
+    setFloor,
+    setAdmin
 }
 
 class ConnectedHeatmap extends Component {
@@ -24,14 +28,19 @@ class ConnectedHeatmap extends Component {
         super(props)
 
         this.changeFloor = this.changeFloor.bind(this);
+        this.setAdmin = this.setAdmin.bind(this);
     }
 
     componentWillMount() {
-        utils.getSensors(utils.sensorsLink);
+        // utils.getSensors(utils.sensorsLink);
     }
 
     changeFloor(eventKey) {
         this.props.setFloor(eventKey);
+    }
+
+    setAdmin() {
+        this.props.setAdmin();
     }
 
     render() {
@@ -39,12 +48,8 @@ class ConnectedHeatmap extends Component {
             return <ReactLoading className="busy wrapper" type="spinningBubbles" color="grey" height={100} width={100} />
         }
         return ([
-            <DropdownButton title="Choose floor">
-                <MenuItem eventKey="one" onSelect={this.changeFloor} active={this.props.floor === "one"}>Floor 1</MenuItem>
-                <MenuItem eventKey="two" onSelect={this.changeFloor} active={this.props.floor === "two"}>Floor 2</MenuItem>
-                <MenuItem eventKey="three" onSelect={this.changeFloor} active={this.props.floor === "three"}>Floor 3</MenuItem>
-            </DropdownButton>,
-            <Map />
+            <Toolbar key="toolbar" location="map"></Toolbar>,
+            <Map key="map" />
         ]);
     };
 };

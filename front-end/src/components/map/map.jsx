@@ -3,16 +3,28 @@ import { connect } from "react-redux";
 import './map.css';
 import * as d3 from 'd3';
 import ReactTooltip from 'react-tooltip';
-import { Tooltip } from 'react-tippy';
-import 'react-tippy/dist/tippy.css';
+import { push } from 'react-router-redux';
+import { setCoord, setSensor } from '../../actions/actions';
+import store from '../../store/store';
+import AddForm from '../addForm/addForm';
+import * as utils from '../../utils/utils';
+import ReactLoading from 'react-loading';
 
 
 const mapStateToProps = state => {
     return {
         sensors: state.rootReducer.sensors,
         loading: state.rootReducer.loading,
-        floor: state.rootReducer.floor
+        floor: state.rootReducer.floor,
+        coord: state.rootReducer.coord,
+        adminMode: state.rootReducer.adminMode,
+        selectedSensor: state.selectedSensor
     };
+};
+
+const mapDispatchToProps = {
+    setCoord,
+    setSensor
 };
 
 class ConnectedMap extends Component {
@@ -23,18 +35,24 @@ class ConnectedMap extends Component {
         this.hover = this.hover.bind(this);
         this.getCoord = this.getCoord.bind(this);
         this.drawMap = this.drawMap.bind(this);
+        
     }
 
     click(data) {
-        console.log(data);
+        utils.getSensor(utils.sensorsLink, data.serialID);
     }
 
     hover(data) {
-        console.log(data);
+        // console.log(data);
     }
 
     getCoord(data) {
-        console.log(data.nativeEvent.offsetX);
+        if (this.props.adminMode) {
+            this.props.setCoord({
+                xCoord: data.nativeEvent.offsetX,
+                yCoord: data.nativeEvent.offsetY
+            });
+        }
     }
 
     drawMap() {
@@ -61,6 +79,7 @@ class ConnectedMap extends Component {
                                     .attr("fill", function(d) {return d.color;})
                                     .on("click", (d) => {this.click(d);})
                                     .on("mouseover", (d) => {this.hover(d);});
+                                    
         // Rebind tooltips after trigerring anchors are added by D3
         ReactTooltip.rebuild()
     }
@@ -76,20 +95,25 @@ class ConnectedMap extends Component {
 
     render() {
         const sensors = this.props.sensors.filter(sensor => sensor.floor === this.props.floor);
-        return (
-            <div id="map" className={this.props.floor.toString()} onClick={this.getCoord}>
+        if (this.props.loading) {
+            return <ReactLoading className="busy wrapper" type="spinningBubbles" color="grey" height={100} width={100} />
+        }
+        return ([
+            <div id="map" key="map" className={this.props.floor.toString()} onClick={this.getCoord}>
                 {sensors.map((sensor, index) => (
                     <ReactTooltip key={index} id={sensor.serialID.toString()} type='info' effect='solid'>
                         <span className='reading'>ID: {sensor.serialID}</span>
+                        <span className='reading'>Name: {sensor.name}</span>
                         <span className='reading'>Temperature: {sensor.temperature}</span>
                         <span className='reading'>Humidity: {sensor.humidity}</span>
                     </ReactTooltip>
                 ))}
-            </div>
-        );
+            </div>,
+            <AddForm key="addForm" />
+            ]);
     }
 }
 
-const Map = connect(mapStateToProps)(ConnectedMap);
+const Map = connect(mapStateToProps, mapDispatchToProps)(ConnectedMap);
 
 export default Map;

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'rest_framework.authtoken',
     'rest_framework',
     'api'
 ]
@@ -59,9 +60,11 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
+    '127.0.0.1:8000',
     'localhost:3000',
     '127.0.0.2:8080',
-    'http://10.25.100.164'
+    'http://10.25.100.164',
+
 )
 
 ROOT_URLCONF = 'heatmap.urls'

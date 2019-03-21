@@ -3,3 +3,8 @@
     top: 50%;
     left: 50%;
 }
+
+.btn-admin {
+    margin-right: 0;
+    margin-left: auto;
+}
