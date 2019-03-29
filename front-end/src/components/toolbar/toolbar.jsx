@@ -76,6 +76,10 @@ class ConnectedToolbar extends Component {
         this.props.setAdmin();
     }
 
+    login() {
+        store.dispatch(push('/login'));
+    }
+
     render() {
         return([
             <ButtonToolbar key="ButtonToolbar">
@@ -98,7 +102,7 @@ class ConnectedToolbar extends Component {
                 {this.props.location === "map" ?
                     <Button variant="info" onClick={this.updateSensors}>Update</Button>
                 : null}
-                {this.props.token ? <Logged adminMode={this.props.adminMode} setAdmin={this.setAdmin} logout={this.logout}  /> : <NotLogged />}
+                {this.props.token ? <Logged adminMode={this.props.adminMode} setAdmin={this.setAdmin} logout={this.logout}  /> : <NotLogged login={this.login} />}
             </ButtonToolbar>,
             <DeleteForm key="deleteConfirm" show={this.state.deleting} handleClose={this.toggleDelete} 
                 sensorName={this.props.selectedSensor ? this.props.selectedSensor.name : null} />
@@ -117,11 +121,11 @@ function Logged(props) {
     ])
 }
 
-function NotLogged() {
+function NotLogged(props) {
     return(
-        <a key="login" href="/login" className="btn btn-success pull-right" >
+        <Button key="login" onClick={props.login} className="btn btn-success pull-right" >
             Login
-        </a>
+        </Button>
     )
     
 }
