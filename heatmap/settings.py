@@ -47,6 +47,12 @@ INSTALLED_APPS = [
     'api'
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -64,7 +70,6 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
     '127.0.0.2:8080',
     'http://10.25.100.164',
-
 )
 
 ROOT_URLCONF = 'heatmap.urls'
