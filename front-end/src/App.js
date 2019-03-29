@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/header/header';
 import Heatmap from './components/heatmap/heatmap';
 import Sensor from './components/sensor/sensor';
+import Login from './components/login/login';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Container } from 'react-bootstrap';
@@ -24,6 +25,7 @@ class App extends Component {
         <Router history={history}>
           <Route exact path="/" component={Heatmap} />
           <Route exact path="/sensor/:serialID" component={Sensor} />
+          <Route exact path="/login" component={Login} />
         </Router>
       </Container>
     )

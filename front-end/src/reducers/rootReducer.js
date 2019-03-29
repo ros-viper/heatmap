@@ -18,7 +18,7 @@ const rootReducer = (state = initialState, action) => {
             newState.loading = false;
             return newState;
         case SET_LOADING:
-            newState.loading = true;
+            newState.loading = action.active;
             return newState;
         case SET_FLOOR:
             newState.floor = action.payload;

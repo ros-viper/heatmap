@@ -1,9 +1,11 @@
 import store from '../store/store';
-import { setSensors, setLoading, setCoord, setSensor } from '../actions/actions';
+import { setSensors, setLoading, setCoord, setSensor, setToken } from '../actions/actions';
 import { push } from 'react-router-redux';
 
-export const sensorsLink = 'http://localhost:8000/api/sensors/';
-// export const sensorsLink = 'http://10.25.100.164:80/api/sensors/';
+// export const sensorsLink = 'http://localhost:8000/api/sensors/';
+// export const credsLink = 'http://localhost:8000/api-auth/';
+export const sensorsLink = 'http://10.25.100.164:80/api/sensors/';
+export const credsLink = 'http://10.25.100.164:80/api-auth/';
 
 export const getSensors = (link) => {
     store.dispatch(setLoading());
@@ -46,4 +48,29 @@ export const deleteSensor = (link, sensor) => {
     .then(() => getSensors(sensorsLink))
     .then(() => store.dispatch(push("/")));
     
+}
+
+export const getToken = (username, password) => {
+    store.dispatch(setLoading(true));
+    const credStorage = localStorage;
+
+    fetch(credsLink, {
+        method: 'POST',
+        body: JSON.stringify({ 'username': username, 'password': password }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then( res => res.json() )
+        .then( result => {
+            console.log(result);
+            store.dispatch(setLoading(false));
+
+            if(result.token) {
+                store.dispatch(setToken(result.token));
+                credStorage.setItem('token', result.token);
+                store.dispatch(push('/'));
+            }
+        })
+        .catch(e => console.log(`utils.getToken: ${e.message}`));
 }

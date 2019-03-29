@@ -1,13 +1,13 @@
-import { SET_SENSORS, SET_LOADING, SET_FLOOR, SET_ADMIN, SET_COORD, SET_SENSOR, DELETE_SENSOR } from './action-types.js';
+import { SET_SENSORS, SET_LOADING, SET_FLOOR, SET_ADMIN, SET_COORD, SET_SENSOR, DELETE_SENSOR, SET_TOKEN } from './action-types.js';
 
 export const setSensors = sensors => ({
     type: SET_SENSORS,
     payload: sensors
 });
 
-export const setLoading = () => ({
+export const setLoading = (active = true) => ({
     type: SET_LOADING,
-    payload: null
+    active: active
 });
 
 export const setFloor = floor => ({
@@ -27,5 +27,10 @@ export const setCoord = payload => ({
 
 export const setSensor = payload => ({
     type: SET_SENSOR,
+    payload: payload
+});
+
+export const setToken = payload => ({
+    type: SET_TOKEN,
     payload: payload
 });

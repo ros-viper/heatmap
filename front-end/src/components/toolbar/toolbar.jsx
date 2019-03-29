@@ -4,7 +4,7 @@ import * as utils from '../../utils/utils';
 import store from '../../store/store';
 import { push } from 'react-router-redux';
 import { Dropdown, Button, ButtonToolbar } from 'react-bootstrap';
-import { setFloor, setAdmin } from '../../actions/actions';
+import { setFloor, setAdmin, setToken } from '../../actions/actions';
 import DeleteForm from "../deleteForm/deleteForm";
 
 const mapStateToProps = state => {
@@ -13,7 +13,8 @@ const mapStateToProps = state => {
         loading: state.rootReducer.loading,
         floor: state.rootReducer.floor,
         adminMode: state.rootReducer.adminMode,
-        selectedSensor: state.rootReducer.selectedSensor
+        selectedSensor: state.rootReducer.selectedSensor,
+        token: state.loginReducer.token
     };
 };
 
@@ -35,6 +36,15 @@ class ConnectedToolbar extends Component {
         this.goToMap = this.goToMap.bind(this);
         this.toggleDelete = this.toggleDelete.bind(this);
         this.updateSensors = this.updateSensors.bind(this);
+        this.logout = this.logout.bind(this);
+    }
+
+    componentDidMount() {
+        if (localStorage.getItem('token') && !this.props.token) {
+            const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+            store.dispatch(setToken(token));
+        }
     }
 
     updateSensors() {
@@ -59,6 +69,13 @@ class ConnectedToolbar extends Component {
         });
     }
 
+    logout() {
+        const storage = localStorage;
+        storage.removeItem('token');
+        store.dispatch(setToken(null));
+        this.props.setAdmin();
+    }
+
     render() {
         return([
             <ButtonToolbar key="ButtonToolbar">
@@ -78,17 +95,35 @@ class ConnectedToolbar extends Component {
                     </Dropdown.Menu>
                 </Dropdown>
                 {this.props.adminMode && this.props.location == "sensor" ? <Button variant="danger" onClick={this.toggleDelete}>Delete</Button> : null}
-                {this.props.location == "map" ?
+                {this.props.location === "map" ?
                     <Button variant="info" onClick={this.updateSensors}>Update</Button>
                 : null}
-                <Button variant={this.props.adminMode ? "success" : "warning"} onClick={this.setAdmin} className="btn-admin">
-                    Admin Mode {this.props.adminMode ? "on" : "off"}
-                </Button>
+                {this.props.token ? <Logged adminMode={this.props.adminMode} setAdmin={this.setAdmin} logout={this.logout}  /> : <NotLogged />}
             </ButtonToolbar>,
             <DeleteForm key="deleteConfirm" show={this.state.deleting} handleClose={this.toggleDelete} 
                 sensorName={this.props.selectedSensor ? this.props.selectedSensor.name : null} />
         ]);
     }
+}
+
+function Logged(props) {
+    return([
+        <Button key="adminMode" variant={props.adminMode ? "success" : "warning"} onClick={props.setAdmin} className="btn-admin">
+            Admin Mode {props.adminMode ? "on" : "off"}
+        </Button>,
+        <Button key="logout" variant="info" onClick={props.logout}>
+            Logout
+        </Button>
+    ])
+}
+
+function NotLogged() {
+    return(
+        <a key="login" href="/login" className="btn btn-success pull-right" >
+            Login
+        </a>
+    )
+    
 }
 
 const Toolbar = connect(mapStateToProps, mapDispatchToProps)(ConnectedToolbar);
