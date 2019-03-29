@@ -2,10 +2,10 @@ import store from '../store/store';
 import { setSensors, setLoading, setCoord, setSensor, setToken } from '../actions/actions';
 import { push } from 'react-router-redux';
 
-// export const sensorsLink = 'http://localhost:8000/api/sensors/';
-// export const credsLink = 'http://localhost:8000/api-auth/';
-export const sensorsLink = 'http://10.25.100.164:80/api/sensors/';
-export const credsLink = 'http://10.25.100.164:80/api-auth/';
+export const sensorsLink = 'http://localhost:8000/api/sensors/';
+export const credsLink = 'http://localhost:8000/api-auth/';
+// export const sensorsLink = 'http://10.25.100.164:80/api/sensors/';
+// export const credsLink = 'http://10.25.100.164:80/api-auth/';
 
 export const getSensors = (link) => {
     store.dispatch(setLoading());
@@ -22,7 +22,8 @@ export const addSensor = (link, sensor) => {
             method: 'POST',
             body: JSON.stringify(sensor),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + store.getState().loginReducer.token
             }
         }    
     )
@@ -42,7 +43,11 @@ export const getSensor = (link, key) => {
 export const deleteSensor = (link, sensor) => {
     store.dispatch(setLoading());
     fetch(link+sensor.serialID+"/", {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + store.getState().loginReducer.token
+        }
     })
     .then(() => store.dispatch(setSensor(null)))
     .then(() => getSensors(sensorsLink))
