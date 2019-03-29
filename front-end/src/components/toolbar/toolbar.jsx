@@ -95,7 +95,7 @@ class ConnectedToolbar extends Component {
                     <Dropdown.Menu>
                         <Dropdown.Item eventKey="one" onSelect={this.changeFloor} active={this.props.floor === "one"}>Floor 1</Dropdown.Item>
                         <Dropdown.Item eventKey="two" onSelect={this.changeFloor} active={this.props.floor === "two"}>Floor 2</Dropdown.Item>
-                        <Dropdown.Item eventKey="three" onSelect={this.changeFloor} active={this.props.floor === "three"}>Floor 3</Dropdown.Item>
+                        <Dropdown.Item eventKey="hub" onSelect={this.changeFloor} active={this.props.floor === "hub"}>Hub</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
                 {this.props.adminMode && this.props.location == "sensor" ? <Button variant="danger" onClick={this.toggleDelete}>Delete</Button> : null}
