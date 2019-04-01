@@ -35,7 +35,6 @@ class ConnectedToolbar extends Component {
         this.setAdmin = this.setAdmin.bind(this);
         this.goToMap = this.goToMap.bind(this);
         this.toggleDelete = this.toggleDelete.bind(this);
-        this.updateSensors = this.updateSensors.bind(this);
         this.logout = this.logout.bind(this);
     }
 
@@ -45,10 +44,6 @@ class ConnectedToolbar extends Component {
             const username = localStorage.getItem('username');
             store.dispatch(setToken(token));
         }
-    }
-
-    updateSensors() {
-        utils.getSensors(utils.sensorsLink);
     }
 
     changeFloor(eventKey) {
@@ -99,9 +94,6 @@ class ConnectedToolbar extends Component {
                     </Dropdown.Menu>
                 </Dropdown>
                 {this.props.adminMode && this.props.location == "sensor" ? <Button variant="danger" onClick={this.toggleDelete}>Delete</Button> : null}
-                {this.props.location === "map" ?
-                    <Button variant="info" onClick={this.updateSensors}>Update</Button>
-                : null}
                 {this.props.token ? <Logged adminMode={this.props.adminMode} setAdmin={this.setAdmin} logout={this.logout}  /> : <NotLogged login={this.login} />}
             </ButtonToolbar>,
             <DeleteForm key="deleteConfirm" show={this.state.deleting} handleClose={this.toggleDelete} 

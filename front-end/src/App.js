@@ -14,10 +14,6 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 class App extends Component {
 
-  componentWillMount() {
-    utils.getSensors(utils.sensorsLink);
-  }
-
   render() {
     return (
       <Container>

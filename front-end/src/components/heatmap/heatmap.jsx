@@ -31,8 +31,20 @@ class ConnectedHeatmap extends Component {
         this.setAdmin = this.setAdmin.bind(this);
     }
 
+
     componentWillMount() {
-        // utils.getSensors(utils.sensorsLink);
+        utils.getSensors(utils.sensorsLink);
+    }
+
+    componentDidMount() {
+            this.timer = setInterval(() => {
+                utils.getSensors(utils.sensorsLink)
+            }, 10000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     changeFloor(eventKey) {
