@@ -41,7 +41,6 @@ class ConnectedToolbar extends Component {
     componentDidMount() {
         if (localStorage.getItem('token') && !this.props.token) {
             const token = localStorage.getItem('token');
-            const username = localStorage.getItem('username');
             store.dispatch(setToken(token));
         }
     }
@@ -68,7 +67,10 @@ class ConnectedToolbar extends Component {
         const storage = localStorage;
         storage.removeItem('token');
         store.dispatch(setToken(null));
-        this.props.setAdmin();
+
+        if (this.props.adminMode) {
+            this.props.setAdmin();
+        }
     }
 
     login() {

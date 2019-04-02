@@ -2,10 +2,10 @@ import store from '../store/store';
 import { setSensors, setLoading, setCoord, setSensor, setToken } from '../actions/actions';
 import { push } from 'react-router-redux';
 
-// export const sensorsLink = 'http://localhost:8000/api/sensors/';
-// export const credsLink = 'http://localhost:8000/api-auth/';
-export const sensorsLink = 'http://10.25.100.164:80/api/sensors/';
-export const credsLink = 'http://10.25.100.164:80/api-auth/';
+export const sensorsLink = 'http://localhost:8000/api/sensors/';
+export const credsLink = 'http://localhost:8000/api-auth/';
+// export const sensorsLink = 'http://10.25.100.164:80/api/sensors/';
+// export const credsLink = 'http://10.25.100.164:80/api-auth/';
 
 export const getSensors = (link) => {
     store.dispatch(setLoading());
@@ -68,7 +68,6 @@ export const getToken = (username, password) => {
     })
         .then( res => res.json() )
         .then( result => {
-            console.log(result);
             store.dispatch(setLoading(false));
 
             if(result.token) {
