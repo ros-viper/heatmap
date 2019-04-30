@@ -25,9 +25,9 @@ def on_message(client, userdata, message):
         sensor.humidity = float(humidity)
 
         sensor.save()
-        print(f"Sensor updated: {sensor}")
+        # print(f"Sensor updated: {sensor}")
         history = History.objects.create(sensor=sensor, temperature=temperature, humidity=humidity)
-        print(f"History created: {history}")
+        # print(f"History created: {history}")
 
     except UnicodeDecodeError as e:
         print("Unicode error " + str(e))
