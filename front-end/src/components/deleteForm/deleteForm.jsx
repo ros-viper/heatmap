@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import * as utils from '../../utils/utils';
 import { Modal, Button } from 'react-bootstrap';
+import {withRouter} from 'react-router-dom';
 
 const mapStateToProps = state => {
     return {
@@ -10,22 +11,26 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = {
-
-};
-
 class ConnectedDeleteForm extends Component {
     constructor(props) {
         super(props)
 
         this.handleDelete = this.handleDelete.bind(this);
+        this.navigate = this.navigate.bind(this);
     }
 
     handleDelete() {
-        utils.deleteSensor(utils.sensorsLink, this.props.selectedSensor);
+        this.props.handleClose();
+        utils.deleteSensor(utils.sensorsLink, this.props.selectedSensor, this.navigate);
+    }
+
+    navigate() {
+        console.log("Trying to navigate")
+        this.props.history.push('/');
     }
 
     render() {
+        console.log(this.props)
         if (this.props.show){
             return(
                 <Modal show={this.props.show} onHide={this.props.handleClose}>
@@ -45,5 +50,5 @@ class ConnectedDeleteForm extends Component {
     }
 }
 
-const DeleteForm = connect(mapStateToProps, mapDispatchToProps)(ConnectedDeleteForm);
+const DeleteForm = withRouter(connect(mapStateToProps)(ConnectedDeleteForm));
 export default DeleteForm;

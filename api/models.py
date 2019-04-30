@@ -16,18 +16,18 @@ class Sensor(models.Model):
     y = models.IntegerField(null=False)
     floor = models.CharField(null=False, default="one", max_length=30)
 
-    @property
-    def color(self):
-        if self.temperature > 23.00:
-            return 'red'
-        elif self.temperature < 23.00 and self.temperature > 20:
-            return 'orange'
-        else:
-            return 'lightblue'
-
     def __str__(self):
         """A string representation of the model."""
-        return str(self.serialID)
+        return f"{self.serialID} - {self.name}"
+
+class History(models.Model):
+    sensor = models.ForeignKey(Sensor, related_name='history', on_delete=models.CASCADE)
+    temperature = models.FloatField(default=0.00)
+    humidity = models.FloatField(default=0.00)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sensor} - {self.timestamp}"
 
 # Generating authorization tokens upon user creation
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

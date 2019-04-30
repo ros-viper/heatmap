@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import {withRouter} from 'react-router-dom';
 import * as utils from '../../utils/utils';
 import store from '../../store/store';
-import { push } from 'react-router-redux';
 import { Dropdown, Button, ButtonToolbar } from 'react-bootstrap';
 import { setFloor, setAdmin, setToken } from '../../actions/actions';
 import DeleteForm from "../deleteForm/deleteForm";
 
 const mapStateToProps = state => {
     return {
-        sensors: state.rootReducer.sensors,
-        loading: state.rootReducer.loading,
-        floor: state.rootReducer.floor,
         adminMode: state.rootReducer.adminMode,
-        selectedSensor: state.rootReducer.selectedSensor,
         token: state.loginReducer.token
     };
 };
@@ -36,6 +32,7 @@ class ConnectedToolbar extends Component {
         this.goToMap = this.goToMap.bind(this);
         this.toggleDelete = this.toggleDelete.bind(this);
         this.logout = this.logout.bind(this);
+        this.login = this.login.bind(this);
     }
 
     componentDidMount() {
@@ -43,6 +40,10 @@ class ConnectedToolbar extends Component {
             const token = localStorage.getItem('token');
             store.dispatch(setToken(token));
         }
+    }
+
+    componentWillReceiveProps() {
+        console.log("new props");
     }
 
     changeFloor(eventKey) {
@@ -54,10 +55,11 @@ class ConnectedToolbar extends Component {
     }
 
     goToMap() {
-        store.dispatch(push('/'));
+        this.props.history.push('/');
     }
 
     toggleDelete() {
+        console.log("handle delete");
         this.setState({
             deleting: !this.state.deleting
         });
@@ -74,28 +76,30 @@ class ConnectedToolbar extends Component {
     }
 
     login() {
-        store.dispatch(push('/login'));
+        this.props.history.push('/login');
     }
 
     render() {
         return([
             <ButtonToolbar key="ButtonToolbar">
-                {this.props.location == "sensor" ?
+                {this.props.history.location.pathname.includes('/sensor/') ?
                     <Button variant="secondary" onClick={this.goToMap}>
                         <i className="fas fa-arrow-left"></i>Back to map
                     </Button>
-                : null}
-                <Dropdown title="Choose floor">
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Floor {this.props.floor}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item eventKey="one" onSelect={this.changeFloor} active={this.props.floor === "one"}>Floor 1</Dropdown.Item>
-                        <Dropdown.Item eventKey="two" onSelect={this.changeFloor} active={this.props.floor === "two"}>Floor 2</Dropdown.Item>
-                        <Dropdown.Item eventKey="hub" onSelect={this.changeFloor} active={this.props.floor === "hub"}>Hub</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-                {this.props.adminMode && this.props.location == "sensor" ? <Button variant="danger" onClick={this.toggleDelete}>Delete</Button> : null}
+                :
+                    <Dropdown title="Choose floor">
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Floor {this.props.floor}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item eventKey="one" onSelect={this.changeFloor} active={this.props.floor === "one"}>Floor 1</Dropdown.Item>
+                            <Dropdown.Item eventKey="two" onSelect={this.changeFloor} active={this.props.floor === "two"}>Floor 2</Dropdown.Item>
+                            <Dropdown.Item eventKey="hub" onSelect={this.changeFloor} active={this.props.floor === "hub"}>Hub</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                }
+
+                {this.props.adminMode && this.props.history.location.pathname.includes('/sensor/') ? <Button variant="danger" onClick={this.toggleDelete}>Delete</Button> : null}
                 {this.props.token ? <Logged adminMode={this.props.adminMode} setAdmin={this.setAdmin} logout={this.logout}  /> : <NotLogged login={this.login} />}
             </ButtonToolbar>,
             <DeleteForm key="deleteConfirm" show={this.state.deleting} handleClose={this.toggleDelete} 
@@ -124,5 +128,5 @@ function NotLogged(props) {
     
 }
 
-const Toolbar = connect(mapStateToProps, mapDispatchToProps)(ConnectedToolbar);
+const Toolbar = withRouter(connect(mapStateToProps, mapDispatchToProps)(ConnectedToolbar));
 export default Toolbar;

@@ -5,15 +5,16 @@ import { browserHistory } from 'react-router';
 import rootReducer from '../reducers/rootReducer';
 import loginReducer from '../reducers/loginReducer';
 
-const middleware = routerMiddleware(browserHistory)
+// const middleware = routerMiddleware(browserHistory);
 
 const store = createStore(
     combineReducers({
         rootReducer,
         loginReducer,
-        routing: routerReducer
+        // routing: routerReducer
     }),
-    composeWithDevTools(applyMiddleware(middleware))
+    composeWithDevTools()
+    // composeWithDevTools(applyMiddleware(middleware))
 );
 
 export default store;

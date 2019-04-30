@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
 import {Form, Button} from 'react-bootstrap';
 import * as utils from '../../utils/utils';
 import './login.css';
@@ -17,6 +16,7 @@ class Login extends Component {
         this.changePass = this.changePass.bind(this);
         this.changeUser = this.changeUser.bind(this);
         this.submit = this.submit.bind(this);
+        this.navigate = this.navigate.bind(this);
     }
 
     changeUser(event) {
@@ -35,8 +35,12 @@ class Login extends Component {
         event.preventDefault();
 
         if (this.state.username != '' && this.state.password != '') {
-            utils.getToken(this.state.username, this.state.password);
+            utils.getToken(this.state.username, this.state.password, this.navigate);
         }
+    }
+
+    navigate() {
+        this.props.history.push('/');
     }
 
     render() {

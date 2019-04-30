@@ -1,67 +1,42 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
-import * as utils from '../../utils/utils';
-import Map from '../map/map';
+import Sensors from '../sensors/sensors';
 import Toolbar from '../toolbar/toolbar';
-import ReactLoading from 'react-loading';
-import { Dropdown, Button, ButtonToolbar } from 'react-bootstrap';
-import { setFloor, setAdmin } from '../../actions/actions';
+import { setCoord } from '../../actions/actions';
+import { connect } from "react-redux";
 import './heatmap.css';
-
 
 const mapStateToProps = state => {
     return {
-        sensors: state.rootReducer.sensors,
-        loading: state.rootReducer.loading,
         floor: state.rootReducer.floor,
         adminMode: state.rootReducer.adminMode
     };
 };
 
 const mapDispatchToProps = {
-    setFloor,
-    setAdmin
-}
+    setCoord
+};
 
 class ConnectedHeatmap extends Component {
     constructor(props) {
         super(props)
 
-        this.changeFloor = this.changeFloor.bind(this);
-        this.setAdmin = this.setAdmin.bind(this);
+        this.getCoord = this.getCoord.bind(this);
     }
 
-
-    componentWillMount() {
-        utils.getSensors(utils.sensorsLink);
-    }
-
-    componentDidMount() {
-            this.timer = setInterval(() => {
-                utils.getSensors(utils.sensorsLink)
-            }, 10000
-        );
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
-
-    changeFloor(eventKey) {
-        this.props.setFloor(eventKey);
-    }
-
-    setAdmin() {
-        this.props.setAdmin();
+    getCoord(data) {
+        if (this.props.adminMode) {
+            console.log("getting coordinates");
+            this.props.setCoord({
+                xCoord: data.nativeEvent.offsetX,
+                yCoord: data.nativeEvent.offsetY
+            });
+        }
     }
 
     render() {
-        if (this.props.loading) {
-            return <ReactLoading className="busy wrapper" type="spinningBubbles" color="grey" height={100} width={100} />
-        }
         return ([
-            <Toolbar key="toolbar" location="map"></Toolbar>,
-            <Map key="map" />
+            <div id="map" key="map" className={this.props.floor.toString()} onClick={this.getCoord}></div>,
+            <Sensors key="sensors" />
         ]);
     };
 };

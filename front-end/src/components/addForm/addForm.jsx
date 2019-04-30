@@ -40,7 +40,8 @@ class ConnectedAddForm extends Component {
             serialID: this.state.sensorID,
             x: this.props.coord.xCoord,
             y: this.props.coord.yCoord,
-            floor: this.props.floor
+            floor: this.props.floor,
+            name: this.state.sensorName
         };
         utils.addSensor(utils.sensorsLink, sensor);
     }

@@ -2,10 +2,10 @@ import store from '../store/store';
 import { setSensors, setLoading, setCoord, setSensor, setToken } from '../actions/actions';
 import { push } from 'react-router-redux';
 
-export const sensorsLink = 'http://localhost:8000/api/sensors/';
-export const credsLink = 'http://localhost:8000/api-auth/';
-// export const sensorsLink = 'http://10.25.100.164:80/api/sensors/';
-// export const credsLink = 'http://10.25.100.164:80/api-auth/';
+// export const sensorsLink = 'http://localhost:8000/api/sensors/';
+// export const credsLink = 'http://localhost:8000/api-auth/';
+export const sensorsLink = 'http://10.25.100.164:80/api/sensors/';
+export const credsLink = 'http://10.25.100.164:80/api-auth/';
 
 export const getSensors = (link) => {
     store.dispatch(setLoading());
@@ -32,15 +32,16 @@ export const addSensor = (link, sensor) => {
     .then(() => getSensors(link));
 }
 
-export const getSensor = (link, key) => {
+export const getSensor = (link, key, navigate) => {
+    console.log(link);
     store.dispatch(setLoading());
     fetch(link+key+'/')
     .then(res => res.json())
     .then(result => store.dispatch(setSensor(result)))
-    .then(() => store.dispatch(push(`/sensor/${store.getState().rootReducer.selectedSensor.serialID}`)));
+    .then(() => navigate(key));
 }
 
-export const deleteSensor = (link, sensor) => {
+export const deleteSensor = (link, sensor, navigate) => {
     store.dispatch(setLoading());
     fetch(link+sensor.serialID+"/", {
         method: "DELETE",
@@ -49,13 +50,13 @@ export const deleteSensor = (link, sensor) => {
             'Authorization': 'Token ' + store.getState().loginReducer.token
         }
     })
-    .then(() => store.dispatch(setSensor(null)))
+    .then(() => navigate())
     .then(() => getSensors(sensorsLink))
-    .then(() => store.dispatch(push("/")));
+    .then(() => store.dispatch(setSensor(null)));
     
 }
 
-export const getToken = (username, password) => {
+export const getToken = (username, password, navigate) => {
     store.dispatch(setLoading(true));
     const credStorage = localStorage;
 
@@ -73,7 +74,7 @@ export const getToken = (username, password) => {
             if(result.token) {
                 store.dispatch(setToken(result.token));
                 credStorage.setItem('token', result.token);
-                store.dispatch(push('/'));
+                navigate();
             }
         })
         .catch(e => console.log(`utils.getToken: ${e.message}`));
