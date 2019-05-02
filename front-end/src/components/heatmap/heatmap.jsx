@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Sensors from '../sensors/sensors';
 import Toolbar from '../toolbar/toolbar';
 import { setCoord } from '../../actions/actions';
+import AddForm from '../addForm/addForm';
 import { connect } from "react-redux";
 import './heatmap.css';
 
@@ -36,7 +37,8 @@ class ConnectedHeatmap extends Component {
     render() {
         return ([
             <div id="map" key="map" className={this.props.floor.toString()} onClick={this.getCoord}></div>,
-            <Sensors key="sensors" />
+            <Sensors key="sensors" />,
+            <AddForm key="addForm" />
         ]);
     };
 };

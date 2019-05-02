@@ -32,6 +32,7 @@ class ConnectedSensor extends Component {
             left: 40            
         };
 
+
         const width = document.getElementsByClassName("container")[0].clientWidth - margin.left - margin.right;
         const height = (width * 0.5) - margin.top - margin.bottom;
         
@@ -45,7 +46,7 @@ class ConnectedSensor extends Component {
                 .range([height, 0]);
 
         const line = d3.line()
-                .x(function(d, i) { return xScale(i); })
+                .x(function(d, i) { return xScale(new Date(i)); })
                 .y(function(d) { return yScale(d.temperature); });
 
         const data = this.props.selectedSensor.history;

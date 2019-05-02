@@ -7,7 +7,6 @@ import { push } from 'react-router-redux';
 import { setCoord, setSensor } from '../../actions/actions';
 import store from '../../store/store';
 import { withRouter } from 'react-router-dom';
-import AddForm from '../addForm/addForm';
 import * as utils from '../../utils/utils';
 import ReactLoading from 'react-loading';
 
@@ -132,8 +131,7 @@ class ConnectedSensors extends Component {
                         <span className='reading'>Humidity: {sensor.humidity}</span>
                     </ReactTooltip>
                 ))}
-            </div>,
-            <AddForm key="addForm" />
+            </div>
             ]);
     }
 }
