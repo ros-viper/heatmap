@@ -23,7 +23,7 @@ def sensor_list(request):
 
         return Response(serializer.data)
 
-    elif request.method =='POST':
+    elif request.method == 'POST':
         serializer = SensorSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -31,6 +31,7 @@ def sensor_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 @authentication_classes((TokenAuthentication,))
@@ -66,6 +67,7 @@ def sensor_details(request, pk):
             return Response(status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()

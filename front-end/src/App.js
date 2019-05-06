@@ -15,10 +15,6 @@ import * as utils from './utils/utils';
 import history from './history/history';
 import store from './store/store';
 
-
-// const history = syncHistoryWithStore(browserHistory, store);
-// export const history = createBrowserHistory();
-
 class App extends Component {
 
   render() {
