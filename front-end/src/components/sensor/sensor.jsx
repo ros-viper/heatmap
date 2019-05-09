@@ -24,9 +24,16 @@ class ConnectedSensor extends Component {
     }
 
     componentWillMount() {
-        const pathname = this.props.history.location.pathname;
+        let pathname = this.props.history.location.pathname;
+
+        //Checking for the trailing slash at the end of the pathname
+        if (pathname[pathname.length - 1] == "/") {
+            pathname = pathname.substring(0, pathname.length -1);
+        }
+
         const lastSlashIndex = pathname.lastIndexOf('/');
         const sensorId = parseInt(pathname.substring(lastSlashIndex + 1));
+        
         if (!this.props.selectedSensor) {
             utils.getSensor(utils.sensorsLink, sensorId, null);
         }
