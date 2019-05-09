@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import ReactLoading from 'react-loading';
+import * as utils from '../../utils/utils';
 import * as d3 from 'd3';
 import './sensor.css';
 
@@ -9,7 +10,8 @@ const mapStateToProps = state => {
         loading: state.rootReducer.loading,
         floor: state.rootReducer.floor,
         adminMode: state.rootReducer.adminMode,
-        selectedSensor: state.rootReducer.selectedSensor
+        selectedSensor: state.rootReducer.selectedSensor,
+        sensors: state.rootReducer.sensors
     };
 };
 
@@ -18,9 +20,28 @@ class ConnectedSensor extends Component {
         super(props)
 
         this.drawChart = this.drawChart.bind(this);
+        this.navigate = this.navigate.bind(this);
+    }
+
+    componentWillMount() {
+        const pathname = this.props.history.location.pathname;
+        const lastSlashIndex = pathname.lastIndexOf('/');
+        const sensorId = parseInt(pathname.substring(lastSlashIndex + 1));
+        if (!this.props.selectedSensor) {
+            utils.getSensor(utils.sensorsLink, sensorId, null);
+        }
+    }
+
+    navigate(serialID) {
+        this.props.history.push('/sensor/' + serialID);
     }
 
     componentDidMount() {
+        this.drawChart();
+    }
+
+    componentDidUpdate() {
+        d3.select("#graph").select("svg").remove();
         this.drawChart();
     }
 
@@ -111,7 +132,8 @@ class ConnectedSensor extends Component {
     }
 
     render() {
-        if (this.props.loading) {
+        const sensor = this.props.selectedSensor;
+        if (!sensor || this.props.loading) {
             return <ReactLoading className="busy wrapper" type="spinningBubbles" color="grey" height={100} width={100} />
         }
         return ([

@@ -33,12 +33,15 @@ export const addSensor = (link, sensor) => {
 }
 
 export const getSensor = (link, key, navigate) => {
-    console.log(link);
     store.dispatch(setLoading());
     fetch(link+key+'/')
     .then(res => res.json())
     .then(result => store.dispatch(setSensor(result)))
-    .then(() => navigate(key));
+    .then(() => {
+        if (navigate) {
+            navigate(key);
+        }
+    });
 }
 
 export const deleteSensor = (link, sensor, navigate) => {

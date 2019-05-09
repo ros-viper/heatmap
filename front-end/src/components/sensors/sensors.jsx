@@ -64,8 +64,8 @@ class ConnectedSensors extends Component {
     drawMap() {
         const sensors = this.props.sensors.filter(sensor => sensor.floor === this.props.floor);
 
-        // Create a color scheme for the 0-35 degrees temperature range
-        const myScale = d3.scaleSequential(d3.interpolateRdYlBu).domain([35, 0]);
+        // Create a color scheme for the 14-25 degrees temperature range
+        const myScale = d3.scaleSequential(d3.interpolateRdYlBu).domain([25, 14]);
 
         const svg = d3.select("#map")
                     .append("svg")
