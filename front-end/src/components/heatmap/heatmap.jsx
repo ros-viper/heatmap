@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Sensors from '../sensors/sensors';
-import Toolbar from '../toolbar/toolbar';
+
 import { setCoord } from '../../actions/actions';
 import AddForm from '../addForm/addForm';
 import { connect } from "react-redux";

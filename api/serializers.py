@@ -11,11 +11,11 @@ class HistorySerializer(serializers.ModelSerializer):
 
 
 class SensorSerializer(serializers.ModelSerializer):
-    history = HistorySerializer(many=True, read_only=True)
+    # history = HistorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Sensor
-        fields = ('serialID', 'name', 'temperature', 'humidity', 'x', 'y', 'floor', 'history')
+        fields = ('serialID', 'name', 'temperature', 'humidity', 'x', 'y', 'floor')
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -21,7 +21,8 @@ def sensor_list(request):
         sensors = Sensor.objects.all()
         serializer = SensorSerializer(sensors, many=True)
 
-        return Response(serializer.data)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
         serializer = SensorSerializer(data=request.data)
@@ -53,12 +54,18 @@ def sensor_details(request, pk):
     if request.method == 'GET':
         try:
             sensor = Sensor.objects.get(pk=pk)
+            history = History.objects.filter(sensor=sensor)
         except Sensor.DoesNotExist:
             sensor = Sensor.objects.all()
 
-        serializer = SensorSerializer(sensor)
+        sensor_serializer = SensorSerializer(sensor)
+        history_serializer = HistorySerializer(history, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response({
+            "sensor": sensor_serializer.data,
+            "history": history_serializer.data
+        }, status=status.HTTP_200_OK)
     elif request.method == 'DELETE':
         try:
             sensor = Sensor.objects.get(pk=pk)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import ReactLoading from 'react-loading';
+import ReactTooltip from 'react-tooltip';
 import * as utils from '../../utils/utils';
 import * as d3 from 'd3';
 import './sensor.css';
@@ -65,9 +66,6 @@ class ConnectedSensor extends Component {
             svg.attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom);
 
-            const parseDate = d3.timeParse("%b %Y");
-            const formatDate = d3.timeFormat("%b %Y");
-
             const x = d3.scaleTime().range([0, width]);
             const y = d3.scaleLinear().range([height, 0]);
 
@@ -101,10 +99,28 @@ class ConnectedSensor extends Component {
             x.domain(d3.extent(data, function(d) { return new Date(d.timestamp) }));
             y.domain([15, d3.max(data, function(d) { return d.temperature })]);
 
+
             g.append("path")
                 .datum(data)
                 .attr("class", "area")
-                .attr("d", area)
+                .attr("d", area);
+
+            console.log(area);
+
+            //Add data points
+            // g.selectAll("circles")
+            //     .data(data)
+            //     .enter()
+            //     .append("circle")
+            //         .attr("fill", "red")
+            //         .attr("stroke", "none")
+            //         .attr("cx", function(d) {return x(new Date(d.timestamp))})
+            //         .attr("cy", function(d) {return y(d.temperature)})
+            //         .attr("r", 2)
+            //         .append("a")
+            //         .attr("class", "tooltip anchor")
+            //         .attr("data-tip", "")
+            //         .attr("data-for", function(d) {return d.timestamp});
             
             g.append("g")
                 .attr("class", "axis axis--x")
@@ -127,7 +143,11 @@ class ConnectedSensor extends Component {
             function zoomed() {
                 const t = d3.event.transform;
                 const xt = t.rescaleX(x);
+                const yt = t.rescaleY(y);
                 g.select(".area").attr("d", area.x(function(d) { return xt(new Date(d.timestamp)); }));
+                // g.selectAll("circle")
+                //     .attr("cx", function(d) {return xt(new Date(d.timestamp))}); //re-positioning circles
+
                 g.select(".axis--x").call(xAxis.scale(xt));
             }        
 
@@ -145,8 +165,14 @@ class ConnectedSensor extends Component {
         }
         return ([
             <div key="sensor" className="sensor-graph">
-                <h1>{this.props.selectedSensor.name} - {this.props.selectedSensor.serialID}</h1>
-                <div className="graph" id="graph"></div>
+                <h1>{this.props.selectedSensor.sensor.name} - {this.props.selectedSensor.sensor.serialID}</h1>
+                <div className="graph" id="graph">
+                    {/* {this.props.selectedSensor.history.map((history, index) => (
+                        <ReactTooltip key={index} id={history.timestamp} type='info' effect='solid'>
+                            <span className='reading'>Temp: {history.temperature}</span>
+                        </ReactTooltip>
+                    ))} */}
+                </div>
             </div>
         ])
     }
