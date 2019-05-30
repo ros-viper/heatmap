@@ -50,8 +50,6 @@ class ConnectedAddForm extends Component {
         this.setState(
             {
                 sensorID: parseInt(event.target.value)
-            }, function() {
-                console.log(this.state);
             }
         )
     }

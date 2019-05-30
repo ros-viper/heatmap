@@ -11,7 +11,6 @@ class HistorySerializer(serializers.ModelSerializer):
 
 
 class SensorSerializer(serializers.ModelSerializer):
-    # history = HistorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Sensor

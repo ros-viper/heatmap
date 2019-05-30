@@ -61,11 +61,11 @@ def sensor_details(request, pk):
         sensor_serializer = SensorSerializer(sensor)
         history_serializer = HistorySerializer(history, many=True)
 
-
         return Response({
             "sensor": sensor_serializer.data,
             "history": history_serializer.data
         }, status=status.HTTP_200_OK)
+
     elif request.method == 'DELETE':
         try:
             sensor = Sensor.objects.get(pk=pk)

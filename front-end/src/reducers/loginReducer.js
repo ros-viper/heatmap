@@ -12,7 +12,6 @@ const loginReducer = (state = initialState, action) => {
         case SET_TOKEN:
             newState.token = action.payload;
             return newState;
-        
         default:
             return state; 
     };

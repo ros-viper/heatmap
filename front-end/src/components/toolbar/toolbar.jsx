@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import {withRouter} from 'react-router-dom';
-import * as utils from '../../utils/utils';
 import store from '../../store/store';
 import { Dropdown, Button, ButtonToolbar } from 'react-bootstrap';
 import { setFloor, setAdmin, setToken } from '../../actions/actions';
@@ -10,7 +9,8 @@ import DeleteForm from "../deleteForm/deleteForm";
 const mapStateToProps = state => {
     return {
         adminMode: state.rootReducer.adminMode,
-        token: state.loginReducer.token
+        token: state.loginReducer.token,
+        floor: state.rootReducer.floor
     };
 };
 
@@ -82,6 +82,7 @@ class ConnectedToolbar extends Component {
     render() {
         return([
             <ButtonToolbar key="ButtonToolbar">
+                {/* Show back button instead of Floor select if in Sensor Details view */}
                 {this.props.history.location.pathname.includes('/sensor/') ?
                     <Button variant="secondary" onClick={this.goToMap}>
                         <i className="fas fa-arrow-left"></i>Back to map

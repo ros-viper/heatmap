@@ -1,6 +1,5 @@
 import store from '../store/store';
 import { setSensors, setLoading, setCoord, setSensor, setToken } from '../actions/actions';
-import { push } from 'react-router-redux';
 
 export const sensorsLink = 'http://localhost:8000/api/sensors/';
 export const credsLink = 'http://localhost:8000/api-auth/';

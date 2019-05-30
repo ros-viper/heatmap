@@ -41,3 +41,16 @@ Environment variables in the Advanced tab of the System Properties
 2. Press New under the User variable for ~your-user-name~
 3. Name your variable somehow (e.g. Path) and add a path to your nodejs installation (e.g. C:\Program Files\nodejs\)
 4. Restart all the terminals and the problem should be fixed
+
+#Deployment(Ubuntu 16.04.3 LTS)
+1. The app is written in Python 3.6.7, so make sure you have the latter or higher version
+2. Login into Ubuntu server and navigate to the folder where you intend to keep the app
+3. Clone the project from the repo using git
+4. (optional) Install and create Python Virtual environment, for example, following the insttructions here: https://virtualenv.pypa.io/en/latest/ . This step is necessary if you plan to host and run multiple python/Django apps on the same server
+5. If you have completed step 4, activate the virtual env and make sure it uses the mentioned version of Python or higher by running 'python'
+6. Navigate to the app folder and install all python/django packages used by the app by running the following command: 'pip install -r requirements.txt'. This will install all the required packages specified in project's requirements
+7. Run "python manage.py migrate" to initially set up the database and apply all the existing migrations
+8. Create an admin user by running the following command and providing username, email and password in the corresponding prompts: 'python manage.py createsuperuser'
+9. Start the app by running the following command: 'python manage.py runserver 0.0.0.0:80 --noreload' . This will start the server and you should be able to navigate to the ip address of your server and see the latest React front-end
+
+
