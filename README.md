@@ -52,5 +52,9 @@ Environment variables in the Advanced tab of the System Properties
 7. Run "python manage.py migrate" to initially set up the database and apply all the existing migrations
 8. Create an admin user by running the following command and providing username, email and password in the corresponding prompts: 'python manage.py createsuperuser'
 9. Start the app by running the following command: 'python manage.py runserver 0.0.0.0:80 --noreload' . This will start the server and you should be able to navigate to the ip address of your server and see the latest React front-end
+10. Currently the app is being deployed on 10.25.100.164 and the credentials are as follows:
+    Username: user
+    Password: P@ssw0rd
+11. The repo is: https://gitlab.op-bit.nz/rzher1/heat-map
 
 
